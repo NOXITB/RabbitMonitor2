@@ -1,32 +1,40 @@
 #!/bin/bash
 
-set -e  # Exit on any error
+set -e
 
+# Install dependencies
+apt-get update
+apt-get install -y \
+    build-essential \
+    musl-tools \
+    curl
+
+# Install Rust if needed
 if ! command -v rustup &> /dev/null; then
-    echo "Installing Rust..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    source "$HOME/.cargo/env"
+    . "$HOME/.cargo/env"
 fi
 
-. "$HOME/.cargo/env"
-
-brew install FiloSottile/musl-cross/musl-cross
-
-
-echo "Adding targets..."
-rustup target remove x86_64-unknown-linux-musl
+# Add targets
 rustup target add x86_64-unknown-linux-musl
-rustup target remove aarch64-unknown-linux-musl
 rustup target add aarch64-unknown-linux-musl
 
-# Build for AMD64
-echo "Building for AMD64..."
-cargo build --release --target x86_64-unknown-linux-musl
+# Configure cargo
+mkdir -p .cargo
+cat > .cargo/config.toml << EOF
+[target.x86_64-unknown-linux-musl]
+linker = "musl-gcc"
+
+[target.aarch64-unknown-linux-musl]
+linker = "aarch64-linux-gnu-gcc"
+EOF
+
+# Build AMD64
+RUSTFLAGS="-C target-feature=+crt-static" cargo build --release --target x86_64-unknown-linux-musl
 cp target/x86_64-unknown-linux-musl/release/Blstmomonitor ./blstmomonitor-amd64
 
-# Build for ARM64
-echo "Building for ARM64..."
-cargo build --release --target aarch64-unknown-linux-musl
+# Build ARM64
+RUSTFLAGS="-C target-feature=+crt-static" cargo build --release --target aarch64-unknown-linux-musl
 cp target/aarch64-unknown-linux-musl/release/Blstmomonitor ./blstmomonitor-arm64
 
 echo "Build complete!"
