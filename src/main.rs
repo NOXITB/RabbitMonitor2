@@ -58,18 +58,15 @@ async fn main() {
 	});
 
 	let app: Router<_, _> = Router::new()
-		.route("/", get(index))
 		.route("/metrics", get(metrics))
 		.with_state(cloned);
 
 	let address: String = args.address + ":" + &args.port.to_string();
-	println!("Rabbit Monitor listening on {}", &address);
+	println!("Blstmo Monitor listening on {}", &address);
 	axum::Server::bind(&address.parse().unwrap()).serve(app.into_make_service()).await.unwrap();
 }
 
-async fn index(State(state): State<Arc<Mutex<Monitor>>>) -> Html<String>{
-	Html(utils::main_page(state))
-}
+
 
 async fn metrics(State(state): State<Arc<Mutex<Monitor>>>) -> Html<String>{
 	Html(utils::create_metrics(state))

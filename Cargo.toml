@@ -1,16 +1,16 @@
 [package]
-name = "rabbitmonitor"
+name = "Blstmomonitor"
 version = "4.1.0"
-authors = ["Rabbit Company LLC <info@rabbit-company.com>"]
+authors = ["Blstmo Company LLC <info@Blstmo-company.com>"]
 description = "Simple server monitor"
 edition = "2021"
-repository = "https://github.com/Rabbit-Company/RabbitMonitor2"
+repository = "https://github.com/Blstmo-Company/BlstmoMonitor2"
 license = "GPL-3.0"
 readme = "README.md"
 rust-version = "1.68.2"
 categories = ["command-line-utilities"]
 keywords = ["cli", "process-monitoring"]
-publish = ["rabbitmonitor"]
+publish = ["Blstmomonitor"]
 
 [dependencies]
 axum = "0.6.16"

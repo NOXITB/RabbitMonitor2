@@ -3,6 +3,16 @@
 version = 3
 
 [[package]]
+name = "Blstmomonitor"
+version = "4.1.0"
+dependencies = [
+ "axum",
+ "clap",
+ "sysinfo",
+ "tokio",
+]
+
+[[package]]
 name = "anstream"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -592,16 +602,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4424af4bf778aae2051a77b60283332f386554255d722233d09fbfc7e30da2fc"
 dependencies = [
  "proc-macro2",
-]
-
-[[package]]
-name = "rabbitmonitor"
-version = "4.1.0"
-dependencies = [
- "axum",
- "clap",
- "sysinfo",
- "tokio",
 ]
 
 [[package]]
