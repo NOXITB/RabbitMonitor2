@@ -3,7 +3,7 @@ use monitor::Monitor;
 use clap::Parser;
 use std::{thread::sleep, time::Duration};
 use std::sync::{Arc, Mutex, MutexGuard};
-use axum::{routing::get,Router, response::Html};
+use axum::{routing::get, Router, response::{Html, IntoResponse}, http::header};
 
 pub mod utils;
 pub mod monitor;
@@ -68,6 +68,9 @@ async fn main() {
 
 
 
-async fn metrics(State(state): State<Arc<Mutex<Monitor>>>) -> Html<String>{
-	Html(utils::create_metrics(state))
+async fn metrics(State(state): State<Arc<Mutex<Monitor>>>) -> impl IntoResponse {
+	(
+			[(header::CONTENT_TYPE, "text/plain; version=0.0.4")],
+			utils::create_metrics(state)
+	)
 }
