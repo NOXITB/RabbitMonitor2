@@ -3,7 +3,7 @@ use monitor::Monitor;
 use clap::Parser;
 use std::{thread::sleep, time::Duration};
 use std::sync::{Arc, Mutex, MutexGuard};
-use axum::{routing::get, Router, response::{Html, IntoResponse}, http::header};
+use axum::{routing::get, Router, response::IntoResponse, http::header};
 
 pub mod utils;
 pub mod monitor;
